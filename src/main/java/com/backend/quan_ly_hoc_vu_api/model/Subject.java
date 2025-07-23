@@ -1,47 +1,42 @@
 package com.backend.quan_ly_hoc_vu_api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
-@Table(name = "t_majors")
+@Table(name = "t_subjects")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Major {
+public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "major_code", nullable = false)
-    private String majorCode;
+    @Column(name = "subject_code")
+    private String subjectCode;
 
-    @Column(name = "major_name", nullable = false)
-    private String majorName;
+    @Column(name = "subject_name")
+    private String subjectName;
+
+    @Column(name = "credits")
+    private Integer credits;
 
     @Column(name = "description")
     private String description;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "major_id")
+    private Major major;
+
     @Column(name = "created_at")
     private Instant createdAt;
-
-    @JsonIgnore
-    @ToString.Exclude
-    @OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
-    private List<User> users;
-
-    @JsonIgnore
-    @ToString.Exclude
-    @OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
-    private List<Subject> subjects;
 
     @PrePersist
     protected void onCreate() {

@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum UserRole {
 
     STUDENT("STUDENT"),
+    TEACHER("TEACHER"),
     ADMIN("ADMIN");
 
     private final String value;
