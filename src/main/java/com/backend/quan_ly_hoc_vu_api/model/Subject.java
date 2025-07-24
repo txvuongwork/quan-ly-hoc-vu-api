@@ -32,7 +32,7 @@ public class Subject {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "major_id")
+    @JoinColumn(name = "major_id", nullable = false)
     private Major major;
 
     @Column(name = "created_at")

@@ -46,6 +46,10 @@ public class Message {
     public static final String CURRENT_PASSWORD_INCORRECT_ERROR = "error.validate.current-password.incorrect";
     public static final String NEW_PASSWORD_REQUIRED_ERROR = "error.validate.new-password.required";
     public static final String NEW_PASSWORD_SIZE_ERROR = "error.validate.new-password.size";
-    public static final String NEW_PASSWORD_MUST_DIFFER_ERROR = "error.validate.new-password.must-differ";
+
+    // Subject Related Errors
+    public static final String SUBJECT_CODE_REQUIRED_ERROR = "error.validate.subject-code.required";
+    public static final String SUBJECT_NAME_REQUIRED_ERROR = "error.validate.subject-name.required";
+    public static final String SUBJECT_CODE_EXISTED_ERROR = "error.validate.subject-code.existed";
 
 }

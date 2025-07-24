@@ -18,6 +18,7 @@ public class SubjectDTO {
     private String subjectName;
     private Integer credits;
     private String description;
+    private MajorDTO major;
     private Instant createdAt;
 
 }
