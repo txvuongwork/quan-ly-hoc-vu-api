@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Builder
@@ -26,5 +27,6 @@ public class ClassDTO {
     private Integer finalPercent;
     private ClassStatus status;
     private Instant createdAt;
+    private List<ClassScheduleDTO> schedules;
 
 }

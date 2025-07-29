@@ -1,12 +1,14 @@
 package com.backend.quan_ly_hoc_vu_api.service.impl;
 
 import com.backend.quan_ly_hoc_vu_api.dto.ClassDTO;
+import com.backend.quan_ly_hoc_vu_api.dto.ClassScheduleDTO;
 import com.backend.quan_ly_hoc_vu_api.dto.common.PaginationDTO;
 import com.backend.quan_ly_hoc_vu_api.dto.criteria.ClassFilterCriteria;
 import com.backend.quan_ly_hoc_vu_api.dto.request.ClassRequestDTO;
 import com.backend.quan_ly_hoc_vu_api.helper.enumeration.ClassStatus;
 import com.backend.quan_ly_hoc_vu_api.helper.exception.BadRequestException;
 import com.backend.quan_ly_hoc_vu_api.model.Class;
+import com.backend.quan_ly_hoc_vu_api.model.ClassSchedule;
 import com.backend.quan_ly_hoc_vu_api.model.Subject;
 import com.backend.quan_ly_hoc_vu_api.model.Semester;
 import com.backend.quan_ly_hoc_vu_api.model.User;
@@ -25,7 +27,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.backend.quan_ly_hoc_vu_api.helper.constant.Message.*;
 
@@ -44,15 +50,7 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
     @Override
     @Transactional
     public ClassDTO createClass(ClassRequestDTO.CreateClassRequest request) {
-        int totalPercent = request.getProcessPercent() + request.getMidtermPercent() + request.getFinalPercent();
-        if (totalPercent != 100) {
-            throw new BadRequestException(CLASS_PERCENT_TOTAL_INVALID_ERROR);
-        }
-
-        // Validate min <= max students
-        if (request.getMinStudents() > request.getMaxStudents()) {
-            throw new BadRequestException(CLASS_MIN_MAX_STUDENTS_INVALID_ERROR);
-        }
+        validateCreateClassRequest(request);
 
         if (classRepository.existsByClassCode(request.getClassCode())) {
             throw new BadRequestException(CLASS_CODE_EXISTED_ERROR);
@@ -75,6 +73,9 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
                            .status(ClassStatus.OPEN)
                            .build();
 
+        // Add schedules
+        addSchedulesToClass(clazz, request.getSchedules());
+
         Class savedClass = classRepository.save(clazz);
 
         return mapToDTO(savedClass);
@@ -84,16 +85,7 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
     @Transactional
     public ClassDTO updateClass(Long id, ClassRequestDTO.CreateClassRequest request) {
         Class existingClass = getClassById(id);
-
-        int totalPercent = request.getProcessPercent() + request.getMidtermPercent() + request.getFinalPercent();
-        if (totalPercent != 100) {
-            throw new BadRequestException(CLASS_PERCENT_TOTAL_INVALID_ERROR);
-        }
-
-        // Validate min <= max students
-        if (request.getMinStudents() > request.getMaxStudents()) {
-            throw new BadRequestException(CLASS_MIN_MAX_STUDENTS_INVALID_ERROR);
-        }
+        validateCreateClassRequest(request);
 
         if (!existingClass.getClassCode().equals(request.getClassCode()) &&
             classRepository.existsByClassCode(request.getClassCode())) {
@@ -115,6 +107,10 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
         existingClass.setFinalPercent(request.getFinalPercent());
         existingClass.setStatus(request.getStatus());
 
+        // Clear old schedules and add new ones
+        existingClass.clearSchedules();
+        addSchedulesToClass(existingClass, request.getSchedules());
+
         Class updatedClass = classRepository.save(existingClass);
 
         return mapToDTO(updatedClass);
@@ -135,6 +131,10 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
 
     @Override
     public ClassDTO mapToDTO(Class clazz) {
+        List<ClassScheduleDTO> scheduleDTOs = clazz.getSchedules().stream()
+                                                   .map(this::mapScheduleToDTO)
+                                                   .collect(Collectors.toList());
+
         return ClassDTO.builder()
                        .id(clazz.getId())
                        .classCode(clazz.getClassCode())
@@ -148,6 +148,7 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
                        .finalPercent(clazz.getFinalPercent())
                        .status(clazz.getStatus())
                        .createdAt(clazz.getCreatedAt())
+                       .schedules(scheduleDTOs)
                        .build();
     }
 
@@ -155,7 +156,6 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
     public PaginationDTO<ClassDTO> getClassesWithFilter(ClassFilterCriteria criteria) {
         return getWithFilter(criteria);
     }
-
 
     @Override
     protected JpaSpecificationExecutor<Class> getRepository() {
@@ -171,4 +171,65 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
     protected Function<Class, ClassDTO> getEntityToDtoMapper() {
         return this::mapToDTO;
     }
+
+    // Private helper methods
+
+    private void validateCreateClassRequest(ClassRequestDTO.CreateClassRequest request) {
+        // Validate percentage total
+        int totalPercent = request.getProcessPercent() + request.getMidtermPercent() + request.getFinalPercent();
+        if (totalPercent != 100) {
+            throw new BadRequestException(CLASS_PERCENT_TOTAL_INVALID_ERROR);
+        }
+
+        // Validate min <= max students
+        if (request.getMinStudents() > request.getMaxStudents()) {
+            throw new BadRequestException(CLASS_MIN_MAX_STUDENTS_INVALID_ERROR);
+        }
+
+        // Validate schedules
+        validateSchedules(request.getSchedules());
+    }
+
+    private void validateSchedules(List<ClassRequestDTO.ClassScheduleRequest> schedules) {
+        if (schedules == null || schedules.isEmpty()) {
+            throw new BadRequestException(CLASS_SCHEDULES_REQUIRED_ERROR);
+        }
+
+        Set<Integer> usedDays = new HashSet<>();
+
+        for (ClassRequestDTO.ClassScheduleRequest schedule : schedules) {
+            // Validate start period <= end period
+            if (schedule.getStartPeriod() > schedule.getEndPeriod()) {
+                throw new BadRequestException(CLASS_SCHEDULE_PERIOD_INVALID_ERROR);
+            }
+
+            // Validate no duplicate days
+            if (usedDays.contains(schedule.getDayOfWeek())) {
+                throw new BadRequestException(CLASS_SCHEDULE_DUPLICATE_DAY_ERROR);
+            }
+            usedDays.add(schedule.getDayOfWeek());
+        }
+    }
+
+    private void addSchedulesToClass(Class clazz, List<ClassRequestDTO.ClassScheduleRequest> scheduleRequests) {
+        for (ClassRequestDTO.ClassScheduleRequest scheduleRequest : scheduleRequests) {
+            ClassSchedule schedule = ClassSchedule.builder()
+                                                  .dayOfWeek(scheduleRequest.getDayOfWeek())
+                                                  .startPeriod(scheduleRequest.getStartPeriod())
+                                                  .endPeriod(scheduleRequest.getEndPeriod())
+                                                  .build();
+
+            clazz.addSchedule(schedule);
+        }
+    }
+
+    private ClassScheduleDTO mapScheduleToDTO(ClassSchedule schedule) {
+        return ClassScheduleDTO.builder()
+                               .id(schedule.getId())
+                               .dayOfWeek(schedule.getDayOfWeek())
+                               .startPeriod(schedule.getStartPeriod())
+                               .endPeriod(schedule.getEndPeriod())
+                               .build();
+    }
+
 }

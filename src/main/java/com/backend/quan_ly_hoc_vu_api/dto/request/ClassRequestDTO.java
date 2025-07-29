@@ -1,14 +1,14 @@
 package com.backend.quan_ly_hoc_vu_api.dto.request;
 
 import com.backend.quan_ly_hoc_vu_api.helper.enumeration.ClassStatus;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 import static com.backend.quan_ly_hoc_vu_api.helper.constant.Message.*;
 
@@ -57,6 +57,34 @@ public class ClassRequestDTO {
 
         @NotNull(message = CLASS_STATUS_REQUIRED_ERROR)
         private ClassStatus status;
+
+        @NotNull(message = CLASS_SCHEDULES_REQUIRED_ERROR)
+        @NotEmpty(message = CLASS_SCHEDULES_REQUIRED_ERROR)
+        @Valid
+        private List<ClassScheduleRequest> schedules;
+
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ClassScheduleRequest {
+
+        @NotNull(message = CLASS_SCHEDULE_DAY_REQUIRED_ERROR)
+        @Min(value = 1, message = CLASS_SCHEDULE_DAY_INVALID_ERROR)
+        @Max(value = 7, message = CLASS_SCHEDULE_DAY_INVALID_ERROR)
+        private Integer dayOfWeek; // 1=Thứ 2, 2=Thứ 3, ..., 7=Chủ nhật
+
+        @NotNull(message = CLASS_SCHEDULE_START_PERIOD_REQUIRED_ERROR)
+        @Min(value = 1, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR)
+        @Max(value = 10, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR)
+        private Integer startPeriod;
+
+        @NotNull(message = CLASS_SCHEDULE_END_PERIOD_REQUIRED_ERROR)
+        @Min(value = 1, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR)
+        @Max(value = 10, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR)
+        private Integer endPeriod;
 
     }
 

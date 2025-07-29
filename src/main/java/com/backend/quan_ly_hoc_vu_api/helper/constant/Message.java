@@ -94,4 +94,13 @@ public class Message {
     public static final String CLASS_MIN_MAX_STUDENTS_INVALID_ERROR = "error.validate.class.min-max-students-invalid";
     public static final String CLASS_DATE_RANGE_INVALID_ERROR = "error.validate.class.date-range-invalid";
 
+    // Class Schedule Related Errors
+    public static final String CLASS_SCHEDULES_REQUIRED_ERROR = "error.validate.class-schedules.required";
+    public static final String CLASS_SCHEDULE_DAY_REQUIRED_ERROR = "error.validate.class-schedule-day.required";
+    public static final String CLASS_SCHEDULE_DAY_INVALID_ERROR = "error.validate.class-schedule-day.invalid";
+    public static final String CLASS_SCHEDULE_START_PERIOD_REQUIRED_ERROR = "error.validate.class-schedule-start-period.required";
+    public static final String CLASS_SCHEDULE_END_PERIOD_REQUIRED_ERROR = "error.validate.class-schedule-end-period.required";
+    public static final String CLASS_SCHEDULE_PERIOD_INVALID_ERROR = "error.validate.class-schedule-period.invalid";
+    public static final String CLASS_SCHEDULE_DUPLICATE_DAY_ERROR = "error.validate.class-schedule.duplicate-day";
+
 }

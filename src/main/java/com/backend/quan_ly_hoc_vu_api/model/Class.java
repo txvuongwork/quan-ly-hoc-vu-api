@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "t_classes")
@@ -57,9 +59,28 @@ public class Class {
     @Column(name = "created_at")
     private Instant createdAt;
 
+    @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<ClassSchedule> schedules = new ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
         createdAt = Instant.now();
+    }
+
+    public void addSchedule(ClassSchedule schedule) {
+        schedules.add(schedule);
+        schedule.setClassEntity(this);
+    }
+
+    public void removeSchedule(ClassSchedule schedule) {
+        schedules.remove(schedule);
+        schedule.setClassEntity(null);
+    }
+
+    public void clearSchedules() {
+        schedules.forEach(schedule -> schedule.setClassEntity(null));
+        schedules.clear();
     }
 
 }
