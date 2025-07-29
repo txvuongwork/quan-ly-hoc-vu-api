@@ -1,5 +1,6 @@
 package com.backend.quan_ly_hoc_vu_api.dto.criteria;
 
+import com.backend.quan_ly_hoc_vu_api.helper.enumeration.ClassStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,15 +12,18 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SubjectFilterCriteria extends BaseFilterCriteria {
+public class ClassFilterCriteria extends BaseFilterCriteria {
 
-    private String name;
-    private String code;
+    private String classCode;
+    private Long subjectId;
+    private Long semesterId;
+    private Long teacherId;
+    private ClassStatus status;
 
     @Override
     public String getSortBy() {
         String sortBy = super.getSortBy();
-        return sortBy != null ? sortBy : "name";
+        return sortBy != null ? sortBy : "classCode";
     }
 
 }

@@ -1,13 +1,16 @@
 package com.backend.quan_ly_hoc_vu_api.repository;
 
+import com.backend.quan_ly_hoc_vu_api.helper.enumeration.UserRole;
 import com.backend.quan_ly_hoc_vu_api.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
+    List<User> findByRole(UserRole role);
 }

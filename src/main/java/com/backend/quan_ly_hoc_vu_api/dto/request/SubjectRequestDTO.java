@@ -1,6 +1,7 @@
 package com.backend.quan_ly_hoc_vu_api.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,12 @@ public class SubjectRequestDTO {
 
         @NotBlank(message = SUBJECT_NAME_REQUIRED_ERROR)
         private String subjectName;
+
+        @NotBlank(message = SUBJECT_MAJOR_REQUIRED_ERROR)
+        private Long majorId;
+
+        @NotNull(message = SUBJECT_CREDITS_REQUIRED_ERROR)
+        private Integer credits;
 
         private String description;
 

@@ -2,6 +2,7 @@ package com.backend.quan_ly_hoc_vu_api.service.impl;
 
 import com.backend.quan_ly_hoc_vu_api.config.jwt.SecurityUtils;
 import com.backend.quan_ly_hoc_vu_api.dto.UserDTO;
+import com.backend.quan_ly_hoc_vu_api.helper.enumeration.UserRole;
 import com.backend.quan_ly_hoc_vu_api.helper.exception.BadRequestException;
 import com.backend.quan_ly_hoc_vu_api.model.Major;
 import com.backend.quan_ly_hoc_vu_api.model.User;
@@ -31,6 +32,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<UserDTO> getAllTeachers() {
+        return userRepository.findByRole(UserRole.TEACHER)
+                             .stream()
+                             .map(this::mapToDTO)
+                             .toList();
     }
 
     @Override

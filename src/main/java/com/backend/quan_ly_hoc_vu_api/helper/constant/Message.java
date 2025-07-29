@@ -47,9 +47,51 @@ public class Message {
     public static final String NEW_PASSWORD_REQUIRED_ERROR = "error.validate.new-password.required";
     public static final String NEW_PASSWORD_SIZE_ERROR = "error.validate.new-password.size";
 
+    // Major
+    public static final String MAJOR_NOT_FOUND_ERROR = "error.major.not-found";
+    public static final String MAJOR_CODE_REQUIRED_ERROR = "error.validate.major-code.required";
+    public static final String MAJOR_NAME_REQUIRED_ERROR = "error.validate.major-name.required";
+    public static final String MAJOR_CODE_EXISTED_ERROR = "error.validate.major-code.existed";
+    public static final String MAJOR_CANNOT_DELETE_ERROR = "error.major.cannot-delete.has-subjects";
+
     // Subject Related Errors
+    public static final String SUBJECT_NOT_FOUND_ERROR = "error.subject.not-found";
     public static final String SUBJECT_CODE_REQUIRED_ERROR = "error.validate.subject-code.required";
     public static final String SUBJECT_NAME_REQUIRED_ERROR = "error.validate.subject-name.required";
     public static final String SUBJECT_CODE_EXISTED_ERROR = "error.validate.subject-code.existed";
+    public static final String SUBJECT_MAJOR_REQUIRED_ERROR = "error.validate.subject-major.required";
+    public static final String SUBJECT_CREDITS_REQUIRED_ERROR = "error.validate.subject-credits.required";
+    public static final String SUBJECT_CANNOT_DELETE_ERROR = "error.subject.cannot-delete.has-classes";
+
+    // Semester Related Errors
+    public static final String SEMESTER_NOT_FOUND_ERROR = "error.semester.not-found";
+    public static final String SEMESTER_NAME_REQUIRED_ERROR = "error.validate.semester-name.required";
+    public static final String SEMESTER_YEAR_REQUIRED_ERROR = "error.validate.semester-year.required";
+    public static final String SEMESTER_NUMBER_REQUIRED_ERROR = "error.validate.semester-number.required";
+    public static final String SEMESTER_START_REQUIRED_ERROR = "error.validate.semester-start.required";
+    public static final String SEMESTER_END_REQUIRED_ERROR = "error.validate.semester-end.required";
+    public static final String REGISTRATION_START_REQUIRED_ERROR = "error.validate.registration-start.required";
+    public static final String REGISTRATION_END_REQUIRED_ERROR = "error.validate.registration-end.required";
+    public static final String SEMESTER_ACTIVE_REQUIRED_ERROR = "error.validate.semester-active.required";
+    public static final String SEMESTER_YEAR_NUMBER_EXISTED_ERROR = "error.validate.semester-year-number.existed";
+
+    // Class Related Errors
+    public static final String CLASS_NOT_FOUND_ERROR = "error.class.not-found";
+    public static final String CLASS_CODE_REQUIRED_ERROR = "error.validate.class-code.required";
+    public static final String CLASS_CODE_EXISTED_ERROR = "error.validate.class-code.existed";
+    public static final String CLASS_SUBJECT_REQUIRED_ERROR = "error.validate.class-subject.required";
+    public static final String CLASS_SEMESTER_REQUIRED_ERROR = "error.validate.class-semester.required";
+    public static final String CLASS_TEACHER_REQUIRED_ERROR = "error.validate.class-teacher.required";
+    public static final String CLASS_MAX_STUDENTS_REQUIRED_ERROR = "error.validate.class-max-students.required";
+    public static final String CLASS_MIN_STUDENTS_REQUIRED_ERROR = "error.validate.class-min-students.required";
+    public static final String CLASS_START_DATE_REQUIRED_ERROR = "error.validate.class-start-date.required";
+    public static final String CLASS_END_DATE_REQUIRED_ERROR = "error.validate.class-end-date.required";
+    public static final String CLASS_PROCESS_PERCENT_REQUIRED_ERROR = "error.validate.class-process-percent.required";
+    public static final String CLASS_MIDTERM_PERCENT_REQUIRED_ERROR = "error.validate.class-midterm-percent.required";
+    public static final String CLASS_FINAL_PERCENT_REQUIRED_ERROR = "error.validate.class-final-percent.required";
+    public static final String CLASS_STATUS_REQUIRED_ERROR = "error.validate.class-status.required";
+    public static final String CLASS_PERCENT_TOTAL_INVALID_ERROR = "error.validate.class-percent.total-invalid";
+    public static final String CLASS_MIN_MAX_STUDENTS_INVALID_ERROR = "error.validate.class.min-max-students-invalid";
+    public static final String CLASS_DATE_RANGE_INVALID_ERROR = "error.validate.class.date-range-invalid";
 
 }

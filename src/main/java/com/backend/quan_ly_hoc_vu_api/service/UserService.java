@@ -23,4 +23,6 @@ public interface UserService {
 
     User getCurrentUser();
 
+    List<UserDTO> getAllTeachers();
+
 }

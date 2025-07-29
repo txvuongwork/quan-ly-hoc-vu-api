@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SubjectFilterCriteria extends BaseFilterCriteria {
+public class MajorFilterCriteria extends BaseFilterCriteria {
 
     private String name;
     private String code;
@@ -19,7 +19,7 @@ public class SubjectFilterCriteria extends BaseFilterCriteria {
     @Override
     public String getSortBy() {
         String sortBy = super.getSortBy();
-        return sortBy != null ? sortBy : "name";
+        return sortBy != null ? sortBy : "majorName";
     }
 
 }
