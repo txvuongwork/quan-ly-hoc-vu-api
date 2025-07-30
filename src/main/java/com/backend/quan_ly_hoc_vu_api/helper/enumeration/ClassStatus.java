@@ -5,9 +5,10 @@ import lombok.Getter;
 @Getter
 public enum ClassStatus {
 
-    OPEN("OPEN"),
+    OPENED("OPENED"),
     CLOSED("CLOSED"),
-    CANCELED("CANCELED");
+    CANCELED("CANCELED"),
+    WAITING_REGISTER("WAITING_REGISTER"),;
 
     private final String value;
 

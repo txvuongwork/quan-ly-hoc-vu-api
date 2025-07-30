@@ -70,7 +70,7 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
                            .processPercent(request.getProcessPercent())
                            .midtermPercent(request.getMidtermPercent())
                            .finalPercent(request.getFinalPercent())
-                           .status(ClassStatus.OPEN)
+                           .status(ClassStatus.WAITING_REGISTER)
                            .build();
 
         // Add schedules
@@ -109,6 +109,8 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
 
         // Clear old schedules and add new ones
         existingClass.clearSchedules();
+        classRepository.saveAndFlush(existingClass);
+
         addSchedulesToClass(existingClass, request.getSchedules());
 
         Class updatedClass = classRepository.save(existingClass);
