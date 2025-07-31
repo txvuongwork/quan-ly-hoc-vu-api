@@ -6,6 +6,7 @@ import com.backend.quan_ly_hoc_vu_api.dto.common.PaginationDTO;
 import com.backend.quan_ly_hoc_vu_api.dto.criteria.ClassFilterCriteria;
 import com.backend.quan_ly_hoc_vu_api.dto.request.ClassRequestDTO;
 import com.backend.quan_ly_hoc_vu_api.helper.enumeration.ClassStatus;
+import com.backend.quan_ly_hoc_vu_api.helper.enumeration.EnrollmentStatus;
 import com.backend.quan_ly_hoc_vu_api.helper.exception.BadRequestException;
 import com.backend.quan_ly_hoc_vu_api.model.Class;
 import com.backend.quan_ly_hoc_vu_api.model.ClassSchedule;
@@ -27,6 +28,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -105,7 +107,6 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
         existingClass.setProcessPercent(request.getProcessPercent());
         existingClass.setMidtermPercent(request.getMidtermPercent());
         existingClass.setFinalPercent(request.getFinalPercent());
-        existingClass.setStatus(request.getStatus());
 
         // Clear old schedules and add new ones
         existingClass.clearSchedules();
@@ -113,6 +114,22 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
 
         addSchedulesToClass(existingClass, request.getSchedules());
 
+        Class updatedClass = classRepository.save(existingClass);
+
+        return mapToDTO(updatedClass);
+    }
+
+    @Override
+    @Transactional
+    public ClassDTO updateClassStatus(Long id, ClassRequestDTO.UpdateClassStatusRequest request) {
+        Class existingClass = getClassById(id);
+        ClassStatus currentStatus = existingClass.getStatus();
+        ClassStatus newStatus = request.getStatus();
+
+        // Validate status transition
+        validateStatusTransition(existingClass, currentStatus, newStatus);
+
+        existingClass.setStatus(newStatus);
         Class updatedClass = classRepository.save(existingClass);
 
         return mapToDTO(updatedClass);
@@ -232,6 +249,60 @@ public class ClassServiceImpl extends BaseFilterService<Class, Long, ClassFilter
                                .startPeriod(schedule.getStartPeriod())
                                .endPeriod(schedule.getEndPeriod())
                                .build();
+    }
+
+    private void validateStatusTransition(Class clazz, ClassStatus currentStatus, ClassStatus newStatus) {
+        Instant now = Instant.now();
+        Semester semester = clazz.getSemester();
+
+        switch (newStatus) {
+            case OPENED:
+                if (currentStatus != ClassStatus.WAITING_REGISTER) {
+                    throw new BadRequestException(CLASS_STATUS_TRANSITION_INVALID_ERROR);
+                }
+
+                // Check if registration period has ended
+                if (now.isBefore(semester.getRegistrationEnd())) {
+                    throw new BadRequestException(CLASS_STATUS_CANNOT_OPEN_REGISTRATION_NOT_ENDED_ERROR);
+                }
+
+                // Check if minimum students requirement is met
+                long enrolledStudents = classRepository.countEnrollmentsByClassIdAndStatus(
+                        clazz.getId(), EnrollmentStatus.ENROLLED);
+                if (enrolledStudents < clazz.getMinStudents()) {
+                    throw new BadRequestException(CLASS_STATUS_CANNOT_OPEN_INSUFFICIENT_STUDENTS_ERROR);
+                }
+                break;
+
+            case CANCELED:
+                if (currentStatus != ClassStatus.WAITING_REGISTER) {
+                    throw new BadRequestException(CLASS_STATUS_TRANSITION_INVALID_ERROR);
+                }
+
+                // Check if registration period has ended
+                if (now.isBefore(semester.getRegistrationEnd())) {
+                    throw new BadRequestException(CLASS_STATUS_CANNOT_CANCEL_REGISTRATION_NOT_ENDED_ERROR);
+                }
+                break;
+
+            case CLOSED:
+                if (currentStatus != ClassStatus.OPENED) {
+                    throw new BadRequestException(CLASS_STATUS_CANNOT_CLOSE_NOT_OPENED_ERROR);
+                }
+
+                // Check if semester has ended
+                if (now.isBefore(semester.getSemesterEnd())) {
+                    throw new BadRequestException(CLASS_STATUS_CANNOT_CLOSE_SEMESTER_NOT_ENDED_ERROR);
+                }
+                break;
+
+            case WAITING_REGISTER:
+                // Cannot transition back to WAITING_REGISTER from any other status
+                throw new BadRequestException(CLASS_STATUS_TRANSITION_INVALID_ERROR);
+
+            default:
+                throw new BadRequestException(CLASS_STATUS_TRANSITION_INVALID_ERROR);
+        }
     }
 
 }

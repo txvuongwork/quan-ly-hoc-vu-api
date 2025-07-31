@@ -103,4 +103,12 @@ public class Message {
     public static final String CLASS_SCHEDULE_PERIOD_INVALID_ERROR = "error.validate.class-schedule-period.invalid";
     public static final String CLASS_SCHEDULE_DUPLICATE_DAY_ERROR = "error.validate.class-schedule.duplicate-day";
 
+    // Class Status Transition Errors
+    public static final String CLASS_STATUS_TRANSITION_INVALID_ERROR = "error.class.status-transition.invalid";
+    public static final String CLASS_STATUS_CANNOT_OPEN_REGISTRATION_NOT_ENDED_ERROR = "error.class.status.cannot-open.registration-not-ended";
+    public static final String CLASS_STATUS_CANNOT_OPEN_INSUFFICIENT_STUDENTS_ERROR = "error.class.status.cannot-open.insufficient-students";
+    public static final String CLASS_STATUS_CANNOT_CANCEL_REGISTRATION_NOT_ENDED_ERROR = "error.class.status.cannot-cancel.registration-not-ended";
+    public static final String CLASS_STATUS_CANNOT_CLOSE_SEMESTER_NOT_ENDED_ERROR = "error.class.status.cannot-close.semester-not-ended";
+    public static final String CLASS_STATUS_CANNOT_CLOSE_NOT_OPENED_ERROR = "error.class.status.cannot-close.not-opened";
+
 }

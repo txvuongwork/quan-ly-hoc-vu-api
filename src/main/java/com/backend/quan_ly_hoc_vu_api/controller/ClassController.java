@@ -51,4 +51,10 @@ public class ClassController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/status")
+    public ResponseEntity<ClassDTO> updateClassStatus(@PathVariable Long id,
+                                                      @RequestBody @Valid ClassRequestDTO.UpdateClassStatusRequest request) {
+        return ResponseEntity.ok(classService.updateClassStatus(id, request));
+    }
+
 }

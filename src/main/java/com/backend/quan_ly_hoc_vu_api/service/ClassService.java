@@ -14,5 +14,6 @@ public interface ClassService {
     ClassDTO updateClass(Long id, ClassRequestDTO.CreateClassRequest request);
     Class getClassById(Long id);
     void deleteClass(Long id);
+    ClassDTO updateClassStatus(Long id, ClassRequestDTO.UpdateClassStatusRequest request);
 
 }

@@ -55,13 +55,21 @@ public class ClassRequestDTO {
         @Max(value = 100, message = CLASS_FINAL_PERCENT_REQUIRED_ERROR)
         private Integer finalPercent;
 
-        @NotNull(message = CLASS_STATUS_REQUIRED_ERROR)
-        private ClassStatus status;
-
         @NotNull(message = CLASS_SCHEDULES_REQUIRED_ERROR)
         @NotEmpty(message = CLASS_SCHEDULES_REQUIRED_ERROR)
         @Valid
         private List<ClassScheduleRequest> schedules;
+
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UpdateClassStatusRequest {
+
+        @NotNull(message = CLASS_STATUS_REQUIRED_ERROR)
+        private ClassStatus status;
 
     }
 
