@@ -59,7 +59,6 @@ public class ClassRequestDTO {
         @NotEmpty(message = CLASS_SCHEDULES_REQUIRED_ERROR)
         @Valid
         private List<ClassScheduleRequest> schedules;
-
     }
 
     @Data
@@ -80,20 +79,21 @@ public class ClassRequestDTO {
     public static class ClassScheduleRequest {
 
         @NotNull(message = CLASS_SCHEDULE_DAY_REQUIRED_ERROR)
-        @Min(value = 1, message = CLASS_SCHEDULE_DAY_INVALID_ERROR)
-        @Max(value = 7, message = CLASS_SCHEDULE_DAY_INVALID_ERROR)
-        private Integer dayOfWeek; // 1=Thứ 2, 2=Thứ 3, ..., 7=Chủ nhật
+        @Min(value = 2, message = CLASS_SCHEDULE_DAY_INVALID_ERROR) // 2=Monday
+        @Max(value = 8, message = CLASS_SCHEDULE_DAY_INVALID_ERROR) // 8=Sunday
+        private Integer dayOfWeek; // 2=Monday, 3=Tuesday, ..., 8=Sunday (theo SQL constraint)
 
         @NotNull(message = CLASS_SCHEDULE_START_PERIOD_REQUIRED_ERROR)
         @Min(value = 1, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR)
-        @Max(value = 10, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR)
+        @Max(value = 12, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR) // Updated to 12
         private Integer startPeriod;
 
         @NotNull(message = CLASS_SCHEDULE_END_PERIOD_REQUIRED_ERROR)
         @Min(value = 1, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR)
-        @Max(value = 10, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR)
+        @Max(value = 12, message = CLASS_SCHEDULE_PERIOD_INVALID_ERROR) // Updated to 12
         private Integer endPeriod;
-
     }
+
+
 
 }

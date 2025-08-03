@@ -1,6 +1,7 @@
 package com.backend.quan_ly_hoc_vu_api.model;
 
 import com.backend.quan_ly_hoc_vu_api.helper.enumeration.ClassStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +23,7 @@ public class Class {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "class_code", nullable = false)
+    @Column(name = "class_code", nullable = false, length = 50)
     private String classCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,14 +53,18 @@ public class Class {
     @Column(name = "final_percent", nullable = false)
     private Integer finalPercent;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
-    private ClassStatus status;
+    @Builder.Default
+    private ClassStatus status = ClassStatus.DRAFT;
 
     @Column(name = "created_at")
     private Instant createdAt;
 
-    @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    // Relationships
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default
     private List<ClassSchedule> schedules = new ArrayList<>();
 
@@ -68,19 +73,38 @@ public class Class {
         createdAt = Instant.now();
     }
 
+    // Helper methods
+    public boolean isDraft() {
+        return ClassStatus.DRAFT.equals(this.status);
+    }
+
+    public boolean isOpenForRegistration() {
+        return ClassStatus.OPEN_FOR_REGISTRATION.equals(this.status);
+    }
+
+    public boolean isConfirmed() {
+        return ClassStatus.CONFIRMED.equals(this.status);
+    }
+
+    public boolean isCancelled() {
+        return ClassStatus.CANCELLED.equals(this.status);
+    }
+
+    public boolean isInProgress() {
+        return ClassStatus.IN_PROGRESS.equals(this.status);
+    }
+
+    public boolean isCompleted() {
+        return ClassStatus.COMPLETED.equals(this.status);
+    }
+
     public void addSchedule(ClassSchedule schedule) {
-        schedules.add(schedule);
-        schedule.setClassEntity(this);
+        schedule.setClazz(this);
+        this.schedules.add(schedule);
     }
 
     public void removeSchedule(ClassSchedule schedule) {
-        schedules.remove(schedule);
-        schedule.setClassEntity(null);
+        schedule.setClazz(null);
+        this.schedules.remove(schedule);
     }
-
-    public void clearSchedules() {
-        schedules.forEach(schedule -> schedule.setClassEntity(null));
-        schedules.clear();
-    }
-
 }

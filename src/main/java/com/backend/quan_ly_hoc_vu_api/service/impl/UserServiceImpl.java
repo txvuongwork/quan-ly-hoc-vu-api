@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
                 .fullName(user.getFullName())
                 .role(user.getRole())
                 .major(majorService.mapToDTO(major))
+                      .studentCode(user.getStudentCode())
                 .build();
     }
 

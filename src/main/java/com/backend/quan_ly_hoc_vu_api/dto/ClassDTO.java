@@ -26,7 +26,8 @@ public class ClassDTO {
     private Integer midtermPercent;
     private Integer finalPercent;
     private ClassStatus status;
-    private Instant createdAt;
     private List<ClassScheduleDTO> schedules;
+    private Instant createdAt;
+    private Long enrolledCount;
 
 }

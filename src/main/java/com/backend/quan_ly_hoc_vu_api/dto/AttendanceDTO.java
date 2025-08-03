@@ -1,20 +1,20 @@
 package com.backend.quan_ly_hoc_vu_api.dto;
 
-import com.backend.quan_ly_hoc_vu_api.helper.enumeration.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class AttendanceDTO {
     private Long id;
-    private String email;
-    private String fullName;
-    private UserRole role;
-    private MajorDTO major;
-    private String studentCode;
+    private AttendanceSessionDTO attendanceSession;
+    private UserDTO student;
+    private Instant attendedAt;
+    private Instant createdAt;
 }

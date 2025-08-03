@@ -5,10 +5,12 @@ import lombok.Getter;
 @Getter
 public enum ClassStatus {
 
-    OPENED("OPENED"),
-    CLOSED("CLOSED"),
-    CANCELED("CANCELED"),
-    WAITING_REGISTER("WAITING_REGISTER"),;
+    DRAFT("DRAFT"),
+    OPEN_FOR_REGISTRATION("OPEN_FOR_REGISTRATION"),
+    CONFIRMED("CONFIRMED"),
+    CANCELLED("CANCELLED"),
+    IN_PROGRESS("IN_PROGRESS"),
+    COMPLETED("COMPLETED");
 
     private final String value;
 

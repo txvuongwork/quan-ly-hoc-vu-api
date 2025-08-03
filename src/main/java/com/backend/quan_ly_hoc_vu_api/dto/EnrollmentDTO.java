@@ -1,26 +1,24 @@
 package com.backend.quan_ly_hoc_vu_api.dto;
 
-import com.backend.quan_ly_hoc_vu_api.helper.enumeration.SemesterStatus;
+import com.backend.quan_ly_hoc_vu_api.helper.enumeration.EnrollmentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.time.LocalDate;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SemesterDTO {
+public class EnrollmentDTO {
 
     private Long id;
-    private String semesterCode;
-    private String semesterName;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private SemesterStatus status;
+    private UserDTO student;
+    private ClassDTO clazz;
+    private Instant enrollmentDate;
+    private EnrollmentStatus status;
     private Instant createdAt;
     private Instant updatedAt;
 

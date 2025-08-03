@@ -5,8 +5,10 @@ import lombok.Getter;
 @Getter
 public enum SemesterStatus {
 
-    UPCOMING("UPCOMING"),
-    ONGOING("ONGOING"),
+    DRAFT("DRAFT"),
+    REGISTRATION_OPEN("REGISTRATION_OPEN"),
+    REGISTRATION_CLOSED("REGISTRATION_CLOSED"),
+    IN_PROGRESS("IN_PROGRESS"),
     COMPLETED("COMPLETED");
 
     private final String value;

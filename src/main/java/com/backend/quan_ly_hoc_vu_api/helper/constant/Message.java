@@ -24,26 +24,14 @@ public class Message {
     public static final String EMAIL_FORMAT_ERROR = "error.validate.email.format";
     public static final String PASSWORD_REQUIRED_ERROR = "error.validate.password.required";
     public static final String PASSWORD_MIN_LENGTH_ERROR = "error.validate.password.min-length";
-    public static final String LOGIN_TYPE_REQUIRED_ERROR = "error.validate.login-type.required";
-    public static final String USER_NOT_AUTHENTICATED_ERROR = "error.user.not-authenticated";
     public static final String INVALID_CREDENTIAL_ERR = "error.validate.login.invalid-credential";
     public static final String UNIVERSITY_REQUIRED_ERROR = "error.validate.university.required";
-    public static final String ACCOUNT_ALREADY_VERIFIED_ERROR = "error.account.already-verified";
-    public static final String ACCOUNT_NOT_VERIFIED_ERROR = "error.account.not-verified";
-    public static final String ACCOUNT_BLOCKED_ERROR = "error.account.blocked";
+    public static final String USER_NOT_AUTHENTICATED_ERROR = "error.validate.not-authenticated";
 
     // User Related Errors
     public static final String USER_NOT_FOUND_ERROR = "error.user.not-found";
-    public static final String USER_ALREADY_EXISTS = "error.user.already-exists";
-    public static final String USER_STUDENT_ID_EXISTS_ERROR = "error.user.student-id.exists";
     public static final String FULL_NAME_REQUIRED_ERROR = "error.validate.full-name.required";
-    public static final String EMAIL_DOMAIN_MISMATCH_ERROR = "error.validate.email.domain-mismatch";
-    public static final String FIRST_NAME_REQUIRED_ERROR = "error.validate.first-name.required";
-    public static final String LAST_NAME_REQUIRED_ERROR = "error.validate.last-name.required";
-    public static final String DATE_OF_BIRTH_REQUIRED_ERROR = "error.validate.date-of-birth.required";
-    public static final String GENDER_REQUIRED_ERROR = "error.validate.gender.required";
     public static final String CURRENT_PASSWORD_REQUIRED_ERROR = "error.validate.current-password.required";
-    public static final String CURRENT_PASSWORD_INCORRECT_ERROR = "error.validate.current-password.incorrect";
     public static final String NEW_PASSWORD_REQUIRED_ERROR = "error.validate.new-password.required";
     public static final String NEW_PASSWORD_SIZE_ERROR = "error.validate.new-password.size";
 
@@ -66,14 +54,14 @@ public class Message {
     // Semester Related Errors
     public static final String SEMESTER_NOT_FOUND_ERROR = "error.semester.not-found";
     public static final String SEMESTER_NAME_REQUIRED_ERROR = "error.validate.semester-name.required";
-    public static final String SEMESTER_YEAR_REQUIRED_ERROR = "error.validate.semester-year.required";
-    public static final String SEMESTER_NUMBER_REQUIRED_ERROR = "error.validate.semester-number.required";
-    public static final String SEMESTER_START_REQUIRED_ERROR = "error.validate.semester-start.required";
-    public static final String SEMESTER_END_REQUIRED_ERROR = "error.validate.semester-end.required";
-    public static final String REGISTRATION_START_REQUIRED_ERROR = "error.validate.registration-start.required";
-    public static final String REGISTRATION_END_REQUIRED_ERROR = "error.validate.registration-end.required";
-    public static final String SEMESTER_ACTIVE_REQUIRED_ERROR = "error.validate.semester-active.required";
-    public static final String SEMESTER_YEAR_NUMBER_EXISTED_ERROR = "error.validate.semester-year-number.existed";
+    public static final String SEMESTER_CODE_REQUIRED_ERROR = "error.validate.semester-code.required";
+    public static final String SEMESTER_CODE_EXISTED_ERROR = "error.validate.semester-code.existed";
+    public static final String SEMESTER_START_DATE_REQUIRED_ERROR = "error.validate.semester-start-date.required";
+    public static final String SEMESTER_END_DATE_REQUIRED_ERROR = "error.validate.semester-end-date.required";
+    public static final String SEMESTER_DATE_RANGE_INVALID_ERROR = "error.validate.semester.date-range-invalid";
+    public static final String SEMESTER_STATUS_REQUIRED_ERROR = "error.validate.semester-status.required";
+    public static final String SEMESTER_STATUS_TRANSITION_INVALID_ERROR = "error.semester.status-transition.invalid";
+    public static final String SEMESTER_DATE_OVERLAP_ERROR = "error.semester.date-overlap";
 
     // Class Related Errors
     public static final String CLASS_NOT_FOUND_ERROR = "error.class.not-found";
@@ -93,6 +81,9 @@ public class Message {
     public static final String CLASS_PERCENT_TOTAL_INVALID_ERROR = "error.validate.class-percent.total-invalid";
     public static final String CLASS_MIN_MAX_STUDENTS_INVALID_ERROR = "error.validate.class.min-max-students-invalid";
     public static final String CLASS_DATE_RANGE_INVALID_ERROR = "error.validate.class.date-range-invalid";
+    public static final String CLASS_NOT_VALID_FOR_REGISTER_ERROR = "error.validate.class.not-valid-for-register";
+    public static final String CLASS_STATUS_UPDATE_NOT_ALLOWED_ERROR = "error.class.status-update.not-allowed";
+    public static final String CLASS_STATUS_UPDATE_INVALID_TARGET_ERROR = "error.class.status-update.invalid-target";
 
     // Class Schedule Related Errors
     public static final String CLASS_SCHEDULES_REQUIRED_ERROR = "error.validate.class-schedules.required";
@@ -110,5 +101,18 @@ public class Message {
     public static final String CLASS_STATUS_CANNOT_CANCEL_REGISTRATION_NOT_ENDED_ERROR = "error.class.status.cannot-cancel.registration-not-ended";
     public static final String CLASS_STATUS_CANNOT_CLOSE_SEMESTER_NOT_ENDED_ERROR = "error.class.status.cannot-close.semester-not-ended";
     public static final String CLASS_STATUS_CANNOT_CLOSE_NOT_OPENED_ERROR = "error.class.status.cannot-close.not-opened";
+
+    // Enrollment Related Errors
+    public static final String ENROLLMENT_NOT_FOUND_ERROR = "error.enrollment.not-found";
+    public static final String ENROLLMENT_CLASS_REQUIRED_ERROR = "error.validate.enrollment-class.required";
+    public static final String ENROLLMENT_REGISTRATION_PERIOD_CLOSED_ERROR = "error.enrollment.registration-period-closed";
+    public static final String ENROLLMENT_CLASS_FULL_ERROR = "error.enrollment.class-full";
+    public static final String ENROLLMENT_ALREADY_ENROLLED_ERROR = "error.enrollment.already-enrolled";
+    public static final String ENROLLMENT_SCHEDULE_CONFLICT_ERROR = "error.enrollment.schedule-conflict";
+    public static final String ENROLLMENT_CREDIT_LIMIT_EXCEEDED_ERROR = "error.enrollment.credit-limit-exceeded";
+    public static final String ENROLLMENT_CLASS_NOT_AVAILABLE_ERROR = "error.enrollment.class-not-available";
+    public static final String ENROLLMENT_CANNOT_CANCEL_OUTSIDE_REGISTRATION_PERIOD_ERROR = "error.enrollment.cannot-cancel-outside-registration-period";
+    public static final String ENROLLMENT_NO_ACTIVE_REGISTRATION_PERIOD_ERROR = "error.enrollment.no-active-registration-period";
+    public static final String SEMESTER_CANNOT_START_UNCONFIRMED_CLASSES_ERROR = "error.semester.cannot-start.has-unconfirmed-classes";
 
 }

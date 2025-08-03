@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClassScheduleDTO {
-
     private Long id;
-    private Integer dayOfWeek; // 1=Thứ 2, 2=Thứ 3, ..., 7=Chủ nhật
-    private Integer startPeriod; // 1-10
-    private Integer endPeriod; // 1-10
-
+    private String dayOfWeek;
+    private Integer dayOfWeekValue;
+    private Integer startPeriod;
+    private Integer endPeriod;
+    private String timeSlotDisplay;
 }

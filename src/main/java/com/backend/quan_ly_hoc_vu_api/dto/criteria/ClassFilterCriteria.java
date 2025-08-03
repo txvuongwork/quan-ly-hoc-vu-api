@@ -19,11 +19,14 @@ public class ClassFilterCriteria extends BaseFilterCriteria {
     private Long semesterId;
     private Long teacherId;
     private ClassStatus status;
+    private Integer minStudentsFrom;
+    private Integer minStudentsTo;
+    private Integer maxStudentsFrom;
+    private Integer maxStudentsTo;
 
     @Override
     public String getSortBy() {
         String sortBy = super.getSortBy();
         return sortBy != null ? sortBy : "classCode";
     }
-
 }
